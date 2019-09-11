@@ -46,8 +46,8 @@ func _connected():
 master func spawn_avatar():
 	var id = multiplayer.get_rpc_sender_id()
 	var avatar = AvatarScene.instance()
+	sync_root.add_child(avatar)
 	avatar.name = str(id)
 	avatar.set_network_master(id)
-	sync_root.add_child(avatar)
 	avatar.set_nickname(avatar.name)
 	avatar.spawn_at(Vector2(randi()%500, randi()%500))
