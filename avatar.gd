@@ -7,7 +7,6 @@ onready var _sync = $SyncNode
 
 
 func _ready():
-	_sync.connect("spawned", self, "_spawned")
 	_sync.connect("replicated", self, "_replicated")
 
 
@@ -21,15 +20,7 @@ func spawn_at(pos):
 	_sync.data.position = pos
 
 
-func _spawned(data):
-	print("apply spawned ", data)
-	_nickname.text = data.nickname
-	position = data.position
-
-
 func _replicated(data):
-	if is_network_master():
-		return
 	print("apply replicated ", multiplayer.get_rpc_sender_id(), ' ', data)
 	_nickname.text = _sync.data.nickname
 	position = _sync.data.position

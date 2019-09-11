@@ -79,3 +79,4 @@ remote func rpc_spawned(_data):
 	if sender == 1 || sender == get_network_master():
 		data = _data
 		emit_signal("spawned", data)
+		emit_signal("replicated", data)
