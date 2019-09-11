@@ -10,6 +10,10 @@ func sync_spawn(node):
 		return
 	if is_network_master():
 		rpc("rpc_sync_spawn", node.filename, node.get_path(), node.get_network_master())
+		for child in node.get_children():
+			if child is SyncNode:
+				child.rpc("rpc_spawned", child.data)
+				break
 
 
 func sync_despawn(node):
@@ -31,7 +35,6 @@ remote func rpc_sync_spawn(filename, node_path, master_id):
 		var parent_path = str(node_path).rstrip(node_name)
 		var scene = load(filename)
 		var instance = scene.instance()
-		_disable_sync(instance)
 		instance.name = node_name
 		instance.set_network_master(master_id)
 		get_node(parent_path).add_child(instance)
@@ -49,14 +52,7 @@ func _find_and_sync_to_client(node, id) -> void:
 	for child in node.get_children():
 		if child is SyncNode:
 			rpc_id(id, "rpc_sync_spawn", child.node.filename, child.node.get_path(), child.node.get_network_master())
-			child.rpc_id(id, "rpc_replicate", child.data)
+			child.rpc_id(id, "rpc_spawned", child.data)
+			break
 	for child in node.get_children():
 		_find_and_sync_to_client(child, id)
-
-
-func _disable_sync(instance) -> void:
-	if instance is SyncNode:
-		print("disabling sync node", instance.name)
-		instance.enabled = false
-	for child in instance.get_children():
-		_disable_sync(child)

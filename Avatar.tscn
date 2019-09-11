@@ -9,6 +9,8 @@ script = ExtResource( 1 )
 
 [node name="SyncNode" type="Node" parent="."]
 script = ExtResource( 2 )
+replicated = true
+interval = 0.1
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 3 )

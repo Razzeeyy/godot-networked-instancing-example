@@ -2,6 +2,7 @@ extends Node
 
 class_name SyncNode
 
+signal spawned(data)
 signal replicated(data)
 
 export(bool) var enabled = true
@@ -48,9 +49,8 @@ func _process(delta):
 		if _sync_root && node:
 			print("sync node spawning ", node.name)
 			_sync_root.sync_spawn(node)
-			replicate()
 		_first_run = false
-	if replicated:
+	if is_network_master() && replicated:
 		_elapsed += delta
 		if _elapsed > interval:
 			replicate(false)
@@ -58,15 +58,13 @@ func _process(delta):
 
 
 func replicate(reliable=true):
-	if data.empty():
+	if !is_network_master() || data.empty():
 		return
-	var id = multiplayer.get_network_unique_id()
-	if id == 1 || id == get_network_master():
-		print("replicating ", reliable, ' ', data)
-		if reliable || force_reliable:
-			rpc("rpc_replicate", data)
-		else:
-			rpc_unreliable("rpc_replicate", data)
+	print("replicating ", reliable, ' ', data)
+	if reliable || force_reliable:
+		rpc("rpc_replicate", data)
+	else:
+		rpc_unreliable("rpc_replicate", data)
 
 
 remote func rpc_replicate(_data):
@@ -74,3 +72,10 @@ remote func rpc_replicate(_data):
 	if sender == 1 || sender == get_network_master():
 		data = _data
 		emit_signal("replicated", data)
+
+
+remote func rpc_spawned(_data):
+	var sender = multiplayer.get_rpc_sender_id()
+	if sender == 1 || sender == get_network_master():
+		data = _data
+		emit_signal("spawned", data)
