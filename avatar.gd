@@ -2,32 +2,34 @@ extends Node2D
 
 export(float) var speed = 250
 
+const LERP_SPEED = 10
+
 onready var _nickname = $Nickname
 onready var _sync = $SyncNode
 
 
 func _ready():
-	_sync.connect("replicated", self, "_replicated")
+	_sync.connect("spawned", self, "_spawned")
 
 
-func set_nickname(nick):
-	_nickname.text = nick
-	_sync.data.nickname = nick
+func setup(spawn_position, nickname):
+	position = spawn_position
+	_sync.data.position = spawn_position
+	_nickname.text = nickname
+	_sync.data.nickname = nickname
 
 
-func spawn_at(pos):
-	position = pos
-	_sync.data.position = pos
-
-
-func _replicated(data):
-	print("apply replicated ", multiplayer.get_rpc_sender_id(), ' ', data)
+func _spawned(data):
+	print("apply spawned ", multiplayer.get_rpc_sender_id(), ' ', data)
 	_nickname.text = _sync.data.nickname
 	position = _sync.data.position
 
 
 func _physics_process(delta):
 	if !is_network_master():
+		var lerp_weight = LERP_SPEED*delta
+		position.x = lerp(position.x, _sync.data.position.x, lerp_weight)
+		position.y = lerp(position.y, _sync.data.position.y, lerp_weight)
 		return
 	
 	var move = Vector2.ZERO
@@ -42,5 +44,4 @@ func _physics_process(delta):
 		move.x += speed
 	
 	position += move * delta
-	
 	_sync.data.position = position

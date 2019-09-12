@@ -49,5 +49,4 @@ master func spawn_avatar():
 	sync_root.add_child(avatar)
 	avatar.name = str(id)
 	avatar.set_network_master(id)
-	avatar.set_nickname(avatar.name)
-	avatar.spawn_at(Vector2(randi()%500, randi()%500))
+	avatar.setup(Vector2(randi()%500, randi()%500), avatar.name)
