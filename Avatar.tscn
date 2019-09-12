@@ -22,3 +22,4 @@ margin_right = 50.0
 margin_bottom = -36.0
 align = 1
 valign = 1
+[connection signal="spawned" from="SyncNode" to="." method="_on_SyncNode_spawned"]

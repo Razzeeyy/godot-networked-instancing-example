@@ -8,10 +8,6 @@ onready var _nickname = $Nickname
 onready var _sync = $SyncNode
 
 
-func _ready():
-	_sync.connect("spawned", self, "_spawned")
-
-
 func setup(spawn_position, nickname):
 	position = spawn_position
 	_sync.data.position = spawn_position
@@ -19,7 +15,7 @@ func setup(spawn_position, nickname):
 	_sync.data.nickname = nickname
 
 
-func _spawned(data):
+func _on_SyncNode_spawned(data):
 	print("apply spawned ", multiplayer.get_rpc_sender_id(), ' ', data)
 	_nickname.text = _sync.data.nickname
 	position = _sync.data.position
