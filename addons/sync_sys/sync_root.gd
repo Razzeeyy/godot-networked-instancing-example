@@ -28,7 +28,6 @@ func sync_client(id):
 remote func rpc_sync_spawn(filename, node_path, master_id):
 	var sender = multiplayer.get_rpc_sender_id()
 	if sender == 1 || sender == get_network_master():
-		print("rpc sync spawn ", filename, ' ', node_path, ' ', master_id)
 		var node_name = node_path.get_name(node_path.get_name_count()-1)
 		var parent_path = str(node_path).rstrip(node_name)
 		var scene = load(filename)
@@ -41,7 +40,6 @@ remote func rpc_sync_spawn(filename, node_path, master_id):
 remote func rpc_sync_despawn(node_path) -> void:
 	var sender = multiplayer.get_rpc_sender_id()
 	if sender == 1 || sender == get_network_master():
-		print("rpc sync despawn ", node_path)
 		var node = get_node(node_path)
 		node.get_parent().remove_child(node)
 

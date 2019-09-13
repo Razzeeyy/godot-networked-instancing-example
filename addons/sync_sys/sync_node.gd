@@ -38,7 +38,6 @@ func _exit_tree():
 	if !enabled:
 		return
 	if _sync_root:
-		print("sync node despawning ", node.name)
 		_sync_root.sync_despawn(node)
 
 
@@ -47,7 +46,6 @@ func _process(delta):
 		return
 	if _first_run:
 		if _sync_root && node:
-			print("sync node spawning ", node.name)
 			_sync_root.sync_spawn(node)
 		_first_run = false
 	if is_network_master() && replicated:
@@ -60,7 +58,6 @@ func _process(delta):
 func replicate(reliable=true):
 	if !is_network_master() || data.empty():
 		return
-	print("replicating ", reliable, ' ', data)
 	if reliable || force_reliable:
 		rpc("rpc_replicate", data)
 	else:

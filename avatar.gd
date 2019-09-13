@@ -16,7 +16,6 @@ func setup(spawn_position, nickname):
 
 
 func _on_SyncNode_spawned(data):
-	print("apply spawned ", multiplayer.get_rpc_sender_id(), ' ', data)
 	_nickname.text = _sync.data.nickname
 	position = _sync.data.position
 
