@@ -1,6 +1,6 @@
 extends Node
 
-class_name SyncNode
+const SyncRoot = preload("sync_root.gd")
 
 signal spawned(data)
 signal replicated(data)

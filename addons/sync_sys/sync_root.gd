@@ -1,8 +1,6 @@
 extends Node
 
-class_name SyncRoot
-
-var SyncNode = load("res://sync_node.gd")
+var SyncNode = load("res://addons/sync_sys/sync_node.gd")
 
 
 func sync_spawn(node):

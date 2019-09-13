@@ -8,20 +8,9 @@
 
 config_version=4
 
-_global_script_classes=[ {
-"base": "Node",
-"class": "SyncNode",
-"language": "GDScript",
-"path": "res://sync_node.gd"
-}, {
-"base": "Node",
-"class": "SyncRoot",
-"language": "GDScript",
-"path": "res://sync_root.gd"
-} ]
+_global_script_classes=[  ]
 _global_script_class_icons={
-"SyncNode": "",
-"SyncRoot": ""
+
 }
 
 [application]
@@ -32,7 +21,11 @@ config/icon="res://icon.png"
 
 [autoload]
 
-SyncRoot="res://sync_root.gd"
+SyncRoot="res://addons/sync_sys/sync_root.gd"
+
+[editor_plugins]
+
+enabled=PoolStringArray( "sync_sys" )
 
 [rendering]
 
