@@ -5,13 +5,8 @@ Even though the example showcases it in 2D this system is general enough and can
 
 ## How To Use In Your Project
 
-Just copy the files `sync_node.gd` and `sync_root.gd` over to the root of your project.  
-If wish to copy into another directory that isn't the root then you need to change the line in `sync_root.gd`
-
-```gdscript
-var SyncNode = load("res://sync_node.gd")
-```
-to properly point to the directory where you've placed the `sync_node.gd` file.
+Copy the `addons/sync_sys` folder into the `addons` folder of your project.
+After that activate `SyncSys` plugin under `Project -> Project Settings -> Plugins`.
 
 ## API Overview
 
