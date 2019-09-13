@@ -1,6 +1,5 @@
 # Godot Networked Instancing Example
 
-
 ## About example
 
 This example showcases the usage of SyncSys add-on to simplify networking of scene spawns/despawns over network.  
@@ -12,6 +11,15 @@ Even though the example showcases it in 2D this system is general enough and can
 ### The Why
 
 Godot's main unit of abstraction is node/scene and high level networking provides great tools for networking some aspects of that abstraction. However in my opinion that's not enough. What's the main pain-point and missing feature I have in high level networking is inability to easily network node spawns/despawns. That's why I created the SyncSys addon as a workaround. Also later an optional replication feature was added.
+
+### Design Choices
+
+System consists of the 2 new nodes: `SyncRoot` and `SyncNode`.
+When a `SyncNode` is added under a `SyncRoot` in hierarchy then (if the `SyncRoot` node is a network master) the `SyncNode`'s direct parent addition/removal will be networked if `enabled` is set to true, and replicated if `replicated` is set to true.  
+`SyncNode`'s parent `name` and `network master id` is carried over the network properly when spawned.  
+Clients listen to server or masters. Server automatically relays events from masters to puppets.  
+System was designed with dedicated servers in mind. Currently server-as-player may not work properly, to be improved in the future.  
+There can be as many `SyncRoot` nodes in a hierarchy as one wishes. It's up to the server/master to manage them. They will co-exist simultaneously just fine. This could be used to achieve streaming different parts of open-world map to different clients without much effort.
 
 ### How To Use
 
@@ -33,6 +41,7 @@ Godot's main unit of abstraction is node/scene and high level networking provide
 * `sync_spawn(node)` -- synchronizes despawn of the given node over network, usually doesn't need to be called directly because SyncNode will do it for us automatically
 
 #### SyncNode
+
 * `signal spawned(data)` -- this signal is called when the initial spawn data is sent, it will awlays get called once on node spawn if node enabled even if replication itself is disabled
 * `signal replicated(data)` -- this signal is called when the new replication data arrives, it's not getting called if the replication for this node is disabled
 * `var enabled : bool` -- if this node is enabled it's spawning and despawning will be synchronized over network
