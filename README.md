@@ -1,12 +1,17 @@
 # Godot Networked Instancing Example
 
-## About example
+## About Example
 
 This example showcases the usage of SyncSys add-on to simplify networking of scene spawns/despawns over network.  
-Even though the example showcases it in 2D this system is general enough and can be used for 3D or even UI too.
+Even though the example showcases it in 2D this system is general enough and can be used for 3D or even UI too.  
+Verified to work with Godot 3.1.
+
+### Video Overview
+
+https://youtu.be/0kXzSleNixo
 
 
-## About SyncSys add-on
+## About SyncSys Addon
 
 ### The Why
 
