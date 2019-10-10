@@ -6,27 +6,30 @@ onready var sync_root = $"/root/SyncRoot"
 
 
 func _on_ServerButton_pressed():
+	sync_root.clear()
 	var peer = NetworkedMultiplayerENet.new()
 	peer.create_server(7331)
 	get_tree().multiplayer.network_peer = peer
 	multiplayer.connect("network_peer_connected", self, "_peer_connected")
 	multiplayer.connect("network_peer_disconnected", self, "_peer_disconnected")
 	$Status.text = "Server"
+	spawn_avatar()
 
 
 func _on_ClientButton_pressed():
+	sync_root.clear()
 	var peer = NetworkedMultiplayerENet.new()
 	peer.create_client("localhost", 7331)
 	get_tree().multiplayer.network_peer = peer
 	multiplayer.connect("connected_to_server", self, "_connected")
+	multiplayer.connect("server_disconnected", self, "_server_disconnected")
 	$Status.text = "Client"
 
 
 func _on_DisconnectButton_pressed():
+	sync_root.clear()
 	get_tree().multiplayer.network_peer.close_connection()
 	$Status.text = ""
-	for child in sync_root.get_children():
-		child.queue_free()
 
 
 func _peer_connected(id):
@@ -43,8 +46,18 @@ func _connected():
 	rpc("spawn_avatar")
 
 
+func _server_disconnected():
+	sync_root.clear()
+	$Status.text = ""
+
+
 master func spawn_avatar():
 	var id = multiplayer.get_rpc_sender_id()
+	
+	var host_call = multiplayer.is_network_server() && id == 0
+	if host_call:
+		id = 1
+	
 	var avatar = AvatarScene.instance()
 	sync_root.add_child(avatar)
 	avatar.name = str(id)

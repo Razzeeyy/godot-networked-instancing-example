@@ -2,6 +2,10 @@ extends Node
 
 var SyncNode = load("res://addons/sync_sys/sync_node.gd")
 
+func clear():
+	for child in get_children():
+		child.queue_free()
+
 
 func sync_spawn(node):
 	if node.filename == '': #assume not a scene, currently only scenes supported
