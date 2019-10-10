@@ -44,6 +44,7 @@ There can be as many `SyncRoot` nodes in a hierarchy as one wishes. It's up to t
 * `sync_client(id)` -- used to sync whole sync root tree state to the client
 * `sync_spawn(node)` -- synchronizes spawn of the given node over network, usually doesn't need to be called directly because SyncNode will do it for us automatically
 * `sync_spawn(node)` -- synchronizes despawn of the given node over network, usually doesn't need to be called directly because SyncNode will do it for us automatically
+* `clear()` -- removes and frees all children
 
 #### SyncNode
 
