@@ -56,3 +56,19 @@ There can be as many `SyncRoot` nodes in a hierarchy as one wishes. It's up to t
 * `var interval : float` -- interval at which replication happens if enabled
 * `var data : Dictionary` -- this dictionary gets sent from master to puppets if replicated is set to true
 * `replicate(reliable=true)` -- this function can be called to replicate the data dictionary over to puppets, will only work on masters. Doesn't usually need to be called directly, it's called automatically under the hood. Although you can call it directly if you've disabled automatic replication and want to control exactly when the replication data is sent out.
+
+
+### Changelog
+
+#### 0.1
+
+Initial release
+
+#### 0.2
+
+Ability for host play added. Server now can spawn objects for himself and sync node emulates replication to itself, so the code stays the same as for remote clients.
+
+#### 0.3
+
+Introduction of specific SyncNode subclasses to simplify common replication usecases:
+* SyncTransform2D
