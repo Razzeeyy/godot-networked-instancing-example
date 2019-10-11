@@ -18,6 +18,10 @@ var _sync_root
 var _first_run
 
 
+func _before_spawn(): #subclasses could override this to gather proper spawn data
+	pass
+
+
 func _find_sync_root_in_parents():
 	var parent : Node = get_parent()
 	while parent != null:
@@ -46,6 +50,7 @@ func _process(delta):
 		return
 	if _first_run:
 		if _sync_root && node:
+			_before_spawn()
 			_sync_root.sync_spawn(node)
 		_first_run = false
 	if is_network_master() && replicated:

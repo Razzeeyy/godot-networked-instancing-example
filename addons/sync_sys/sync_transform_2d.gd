@@ -8,14 +8,16 @@ func _enter_tree():
 	if !node is Node2D:
 		enabled = false
 		return
-	if is_network_master():
-		data.transform = node.transform
 	connect("spawned", self, "_spawned")
 
 
+func _before_spawn():
+	._before_spawn()
+	data.transform = node.transform
+
+
 func _spawned(data):
-	if !is_network_master():
-		node.transform = data.transform
+	node.transform = data.transform
 
 
 func _process(delta):
