@@ -28,7 +28,9 @@ func _physics_process(delta):
 		move.y += speed
 	if Input.is_action_pressed("ui_left"):
 		move.x -= speed
+		rotation -= 5 * delta
 	if Input.is_action_pressed("ui_right"):
 		move.x += speed
+		rotation += 5 * delta
 	
 	position += move * delta
