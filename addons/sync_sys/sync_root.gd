@@ -2,9 +2,11 @@ extends Node
 
 var SyncNode = load("res://addons/sync_sys/sync_node.gd")
 
-func clear():
+func clear(free=true):
 	for child in get_children():
-		child.queue_free()
+		remove_child(child)
+		if free:
+			child.queue_free()
 
 
 func sync_spawn(node):
