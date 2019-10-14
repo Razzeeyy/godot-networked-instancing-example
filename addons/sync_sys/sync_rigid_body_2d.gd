@@ -20,15 +20,11 @@ func _spawned(data):
 	node.transform = data.transform
 
 
-func _physics_process(delta):
-	if is_network_master():
-		data.transform = node.transform
-		data.linear_velocity = node.linear_velocity
-		data.angular_velocity = node.angular_velocity
-
-
 func integrate_forces(state):
 	if is_network_master():
+		data.transform = state.transform
+		data.linear_velocity = state.linear_velocity
+		data.angular_velocity = state.angular_velocity
 		return
 	
 	if data.has("linear_velocity"):
