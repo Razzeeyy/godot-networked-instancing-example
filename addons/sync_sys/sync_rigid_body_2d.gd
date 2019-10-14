@@ -30,10 +30,15 @@ func _physics_process(delta):
 func integrate_forces(state):
 	if is_network_master():
 		return
+	
+	if data.has("linear_velocity"):
+		state.linear_velocity = data.linear_velocity
+	if data.has("angular_velocity"):
+		state.angular_velocity = data.angular_velocity
+	
 	if !data.has("transform"):
 		return
-	var delta = state.step
 	if interpolate:
-		state.transform = state.transform.interpolate_with(data.transform, lerp_speed * delta)
+		state.transform = state.transform.interpolate_with(data.transform, lerp_speed * state.step)
 	else:
 		state.transform = data.transform
