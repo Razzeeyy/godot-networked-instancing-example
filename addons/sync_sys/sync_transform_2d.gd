@@ -22,6 +22,9 @@ func _spawned(data):
 
 
 func _process(delta):
+	if !enabled:
+		return
+	
 	if is_network_master():
 		data.transform = node.transform
 	else:

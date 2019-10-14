@@ -33,6 +33,9 @@ func _replicated(data):
 
 
 func integrate_forces(state):
+	if !enabled:
+		return
+	
 	if is_network_master():
 		data.transform = state.transform
 		data.linear_velocity = state.linear_velocity
@@ -57,5 +60,8 @@ func integrate_forces(state):
 
 
 func _physics_process(delta):
+	if !enabled:
+		return
+	
 	if dirty && node.sleeping:
 		node.sleeping = false
