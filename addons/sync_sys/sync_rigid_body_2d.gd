@@ -2,6 +2,7 @@ extends "sync_node.gd"
 
 export(bool) var interpolate = false
 export(float) var lerp_speed = 10
+export(float) var epsilon = 0.01
 
 var dirty = false
 
@@ -63,5 +64,23 @@ func _physics_process(delta):
 	if !enabled:
 		return
 	
-	if dirty && node.sleeping:
+	if !dirty || !node.sleeping:
+		return
+	
+	var differs = false
+	var squared_epsilon = epsilon * epsilon
+	
+	if data.has("linear_velocity"):
+		if node.linear_velocity.distance_squared_to(data.linear_velocity) > squared_epsilon:
+			differs = true
+	elif data.has("angular_velocity"):
+		if node.angular_velocity.distance_squared_to(data.angular_velocity) > squared_epsilon:
+			differs = true
+	elif data.has("transform"):
+		if node.transform.origin.distance_squared_to(data.transform.origin) > squared_epsilon:
+			differs = true
+		elif node.transform.basis.is_equal_approx(data.transform.basis, squared_epsilon):
+			differs = true
+	
+	if differs:
 		node.sleeping = false
