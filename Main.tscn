@@ -20,22 +20,29 @@ custom_constants/separation = 10
 alignment = 1
 
 [node name="Node2DButton" type="Button" parent="VBoxContainer"]
-margin_top = 31.0
+margin_top = 16.0
 margin_right = 153.0
-margin_bottom = 51.0
+margin_bottom = 36.0
 text = "Node2D"
 
 [node name="SpatialButton" type="Button" parent="VBoxContainer"]
-margin_top = 61.0
+margin_top = 46.0
 margin_right = 153.0
-margin_bottom = 81.0
+margin_bottom = 66.0
 text = "Spatial"
 
 [node name="RigidBody2D" type="Button" parent="VBoxContainer"]
-margin_top = 91.0
+margin_top = 76.0
 margin_right = 153.0
-margin_bottom = 111.0
+margin_bottom = 96.0
 text = "RigidBody2D"
+
+[node name="RigidBody3D" type="Button" parent="VBoxContainer"]
+margin_top = 106.0
+margin_right = 153.0
+margin_bottom = 126.0
+text = "RigidBody3D"
 [connection signal="pressed" from="VBoxContainer/Node2DButton" to="." method="_on_Node2DButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/SpatialButton" to="." method="_on_SpatialButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/RigidBody2D" to="." method="_on_RigidBody2D_pressed"]
+[connection signal="pressed" from="VBoxContainer/RigidBody3D" to="." method="_on_RigidBody3D_pressed"]
