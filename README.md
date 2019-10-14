@@ -74,3 +74,4 @@ Introduction of specific SyncNode subclasses to simplify common replication usec
 * SyncTransform2D
 * SyncTransform3D
 * SyncRigidBody2D
+* SyncRigidBody3D
