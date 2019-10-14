@@ -73,3 +73,4 @@ Ability for host play added. Server now can spawn objects for himself and sync n
 Introduction of specific SyncNode subclasses to simplify common replication usecases:
 * SyncTransform2D
 * SyncTransform3D
+* SyncRigidBody2D
