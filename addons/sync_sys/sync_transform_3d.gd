@@ -8,7 +8,8 @@ func _enter_tree():
 	if !node is Spatial:
 		enabled = false
 		return
-	connect("spawned", self, "_spawned")
+	if !is_connected("spawned", self, "_spawned"):
+		connect("spawned", self, "_spawned")
 
 
 func _before_spawn():
