@@ -62,4 +62,6 @@ master func spawn_avatar():
 	sync_root.add_child(avatar)
 	avatar.name = str(id)
 	avatar.set_network_master(id)
-	avatar.setup(Vector3(randi()%10, 0, randi()%10), avatar.name)
+	var position = Vector3(randi()%10, 0, randi()%10)
+	var color = Color(randf(), randf(), randf(), 1.0)
+	avatar.setup(position, color)
