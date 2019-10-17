@@ -32,7 +32,7 @@ There can be as many `SyncRoot` nodes in a hierarchy as one wishes. It's up to t
 2. Activate `SyncSys` plugin under `Project -> Project Settings -> Plugins`.
 3. Add `SyncRoot` node, somewhere appropriate in your SceneTree. Usually an AutoLoad works great. Make sure to call `sync_client(id)` when new client connects to the server, to update that client with the current state of the world.
 4. Navigate to a scene whose instantiation you would want to be networked.
-5. Add `SyncNode` node as the direct child of the given scene's root. Tweak the settings to your liking, see [API reference](#SyncNode) for more info.
+5. Add `SyncNode` (or [any of it's subclasses](#SyncTransform2D)) as the direct child of the given scene's root. Tweak the settings to your liking, see [API reference](#SyncNode) for more info.
 6. Instantiate the given scene and add that instance as a child anywhere under the `SyncRoot`'s node in hierarchy.
 7. It should work automagically.
 
@@ -57,6 +57,34 @@ There can be as many `SyncRoot` nodes in a hierarchy as one wishes. It's up to t
 * `var data : Dictionary` -- this dictionary gets sent from master to puppets if replicated is set to true
 * `replicate(reliable=true)` -- this function can be called to replicate the data dictionary over to puppets, will only work on masters. Doesn't usually need to be called directly, it's called automatically under the hood. Although you can call it directly if you've disabled automatic replication and want to control exactly when the replication data is sent out.
 
+#### SyncTransform2D
+
+This node simplifies synchronization of `Node2D` nodes over network. It will automatically replicate and apply parent's transform.  
+**It writes/reads it's state to `data.transform` be careful not to manipulate it unless you know what you're doing.**
+
+* subclasses [SyncNode](#SyncNode), hence all SyncNode properties apply
+* `var interpolate : bool` -- whether or not received transform should be interpolated (smoothed motion)
+* `var lerp_speed : bool` -- how much of interpolation to apply if `interpolate` is enabled
+
+#### SyncTransform3D
+
+Pretty much the same as [SyncTransform2D](#SyncTransform2D) but works on `Spatial` nodes.
+
+#### SyncRigidBody2D
+
+This node simplifies synchronization of `RigidBody2D` nodes. It will automatically replicate rigidbody state and apply it. This node attempts to extrapolate/dead reckon on missing packets, also allows sleeping puppet bodies to sleep until they recieve a packet with actual movement from the master.  
+**It writes/reads it's state to `data.transform`, `data.linear_velocity`, `data.angular_velocity` be careful not to manipulate it unless you know what you're doing.**
+
+* subclasses [SyncNode](#SyncNode), hence all SyncNode properties apply
+* `var interpolate : bool` -- whether or not received transform should be interpolated (smoothed motion)
+* `var lerp_speed : bool` -- how much of interpolation to apply if `interpolate` is enabled
+* `var epsilon : bool` -- position/force difference threshold above which body will forcefully woken up (if sleeping) and made to reconcile
+* **`integrate_forces(state)` -- due to godot limitations you should call this function in your parent's node `_integrate_forces(state)` function, [see example here](https://github.com/Razzeeyy/godot-networked-instancing-example/blob/master/examples/rigid_body_2d/avatar.gd#L19).**
+
+#### SyncRigidBody3D
+
+Pretty much the same as [SyncRigidBody2D](#SyncRigidBody2D) but works on `RigidBody` nodes.
+
 
 ### Changelog
 
@@ -71,7 +99,10 @@ Ability for host play added. Server now can spawn objects for himself and sync n
 #### 0.3
 
 Introduction of specific SyncNode subclasses to simplify common replication usecases:
-* SyncTransform2D
-* SyncTransform3D
-* SyncRigidBody2D
-* SyncRigidBody3D
+
+* [SyncTransform2D](#SyncTransform2D)
+* [SyncTransform3D](#SyncTransform3D)
+* [SyncRigidBody2D](#SyncRigidBody2D)
+* [SyncRigidBody3D](#SyncRigidBody3D)
+
+Examples moved to the `examples` directory instead of being placed in the project root.
