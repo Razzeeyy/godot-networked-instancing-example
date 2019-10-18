@@ -15,3 +15,7 @@ func _on_RigidBody2D_pressed():
 
 func _on_RigidBody3D_pressed():
 	get_tree().change_scene("examples/rigid_body_3d/Main.tscn")
+
+
+func _on_Cheating_pressed():
+	get_tree().change_scene("examples/cheating/Main.tscn")
