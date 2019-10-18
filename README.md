@@ -8,7 +8,8 @@ Verified to work with Godot 3.1.
 
 ### Video Overview
 
-https://youtu.be/0kXzSleNixo
+https://youtu.be/0kXzSleNixo  
+However this video is a bit outdated now and talks about the first version, which lacked some features. Original library version is accessible at [v1 branch](https://github.com/Razzeeyy/godot-networked-instancing-example/tree/v1).
 
 
 ## About SyncSys Addon
