@@ -9,6 +9,7 @@ onready var _sprite = $Sprite
 var _cheating = false
 
 func _ready():
+	_sync.validate = funcref(self, "_validate")
 	if !multiplayer.is_network_server() && is_network_master() && randf() > 0.5:
 		_cheating = true
 		_sprite.modulate = Color.red
@@ -22,6 +23,11 @@ func setup(spawn_position, nickname):
 
 func _on_SyncNode_spawned(data):
 	_nickname.text = _sync.data.nickname
+
+
+func _validate(old_data, new_data):
+	print(multiplayer.is_network_server(), multiplayer.get_rpc_sender_id())
+	pass
 
 
 func _physics_process(delta):
