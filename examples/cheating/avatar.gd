@@ -26,8 +26,13 @@ func _on_SyncNode_spawned(data):
 
 
 func _validate(old_data, new_data):
-	print(multiplayer.is_network_server(), multiplayer.get_rpc_sender_id())
-	pass
+	var allowed_distance = _sync.interval * speed
+	var old_position = old_data.transform.origin
+	var new_position = new_data.transform.origin
+	var direction = new_position - old_position
+	if  direction.length_squared() > allowed_distance * allowed_distance:
+		new_position = old_position + direction.normalized() * allowed_distance
+	new_data.transform.origin = new_position
 
 
 func _physics_process(delta):
