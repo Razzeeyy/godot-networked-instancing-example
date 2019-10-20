@@ -55,6 +55,7 @@ There can be as many `SyncRoot` nodes in a hierarchy as one wishes. It's up to t
 * `var replicated : bool` -- whether or not automatic replication is enabled
 * `var force_reliable : bool` -- by default replication (except for spawn/despawn messages) is sent as unreliable, turn this on if you wish for it to be always sent as reliable
 * `var interval : float` -- interval at which replication happens if enabled
+* `funcref validate(old_data, new_data)` -- a FuncRef to custom validation function. It will be called before received replication data is applied to the SyncNode (and later sent out to other nodes, if server). To prevent malicious (hacking/cheating) clients you can correct the values by modifiying values stored inside the `new_data` dictionary.
 * `var data : Dictionary` -- this dictionary gets sent from master to puppets if replicated is set to true
 * `replicate(reliable=true)` -- this function can be called to replicate the data dictionary over to puppets, will only work on masters. Doesn't usually need to be called directly, it's called automatically under the hood. Although you can call it directly if you've disabled automatic replication and want to control exactly when the replication data is sent out.
 
@@ -107,3 +108,11 @@ Introduction of specific SyncNode subclasses to simplify common replication usec
 * [SyncRigidBody3D](#SyncRigidBody3D)
 
 Examples moved to the `examples` directory instead of being placed in the project root.
+
+#### 0.4
+
+Implemented ability to supply `validate` callback to SyncNode. This makes it possible to cope with malicious clients.  
+
+Clients now replicate strictly to server. Server replicates to everyone.  
+
+Spawning and despawning is now server authoritative, SyncRoot masters no longer honored, only servers.
