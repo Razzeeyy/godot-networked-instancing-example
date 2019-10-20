@@ -55,7 +55,7 @@ func _process(delta):
 			_before_spawn()
 			_sync_root.sync_spawn(node)
 		_first_run = false
-	if is_network_master() && replicated:
+	if (multiplayer.is_network_server() || is_network_master()) && replicated:
 		_elapsed += delta
 		if _elapsed > interval:
 			replicate(false)
@@ -63,12 +63,13 @@ func _process(delta):
 
 
 func replicate(reliable=true):
-	if !is_network_master() || data.empty():
+	var server = multiplayer.is_network_server()
+	if (!server && !is_network_master()) || data.empty():
 		return
 	if reliable || force_reliable:
-		rpc("rpc_replicate", data)
+		rpc("rpc_replicate", data) if server else rpc_id(1, "rpc_replicate", data)
 	else:
-		rpc_unreliable("rpc_replicate", data)
+		rpc_unreliable("rpc_replicate", data) if server else rpc_unreliable_id(1, "rpc_replicate", data)
 
 
 remotesync func rpc_replicate(_data):

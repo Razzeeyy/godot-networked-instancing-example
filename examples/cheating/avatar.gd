@@ -9,7 +9,9 @@ onready var _sprite = $Sprite
 var _cheating = false
 
 func _ready():
-	_sync.validate = funcref(self, "_validate")
+	if multiplayer.is_network_server():
+		_sync.validate = funcref(self, "_validate")
+	#a random client has a chance to act as a cheater
 	if !multiplayer.is_network_server() && is_network_master() && randf() > 0.5:
 		_cheating = true
 		_sprite.modulate = Color.red
