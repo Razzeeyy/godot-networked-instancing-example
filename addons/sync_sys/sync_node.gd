@@ -86,7 +86,7 @@ remotesync func rpc_replicate(_data):
 remotesync func rpc_spawned(_data):
 	var sender = multiplayer.get_rpc_sender_id()
 	var host_call = multiplayer.is_network_server() && sender == 0
-	if sender == 1 || sender == get_network_master() || host_call:
+	if sender == 1 || host_call:
 		if !host_call:
 			data = _data
 		emit_signal("spawned", data)
