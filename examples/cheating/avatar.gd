@@ -6,7 +6,9 @@ onready var _nickname = $Nickname
 onready var _sync = $SyncTransform2D
 onready var _sprite = $Sprite
 
+var validate = true
 var _cheating = false
+
 
 func _ready():
 	if multiplayer.is_network_server():
@@ -28,6 +30,8 @@ func _on_SyncNode_spawned(data):
 
 
 func _validate(old_data, new_data):
+	if !validate:
+		return
 	var allowed_distance = _sync.interval * speed
 	var old_position = old_data.transform.origin
 	var new_position = new_data.transform.origin

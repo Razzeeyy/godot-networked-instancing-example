@@ -1,8 +1,14 @@
 extends Control
 
 const AvatarScene = preload("Avatar.tscn")
+const Avatar = preload("avatar.gd")
 
 onready var sync_root = $"/root/SyncRoot"
+onready var validation_button = $VBoxContainer/ValidationButton
+
+
+func _ready():
+	validation_button.visible = false
 
 
 func _on_ServerButton_pressed():
@@ -14,6 +20,8 @@ func _on_ServerButton_pressed():
 	multiplayer.connect("network_peer_disconnected", self, "_peer_disconnected")
 	$Status.text = "Server"
 	spawn_avatar()
+	validation_button.visible = true
+	validation_button.pressed = true
 
 
 func _on_ClientButton_pressed():
@@ -24,12 +32,21 @@ func _on_ClientButton_pressed():
 	multiplayer.connect("connected_to_server", self, "_connected")
 	multiplayer.connect("server_disconnected", self, "_server_disconnected")
 	$Status.text = "Client"
+	validation_button.visible = false
 
 
 func _on_DisconnectButton_pressed():
 	sync_root.clear()
 	get_tree().multiplayer.network_peer.close_connection()
 	$Status.text = ""
+	validation_button.visible = false
+
+
+func _on_ValidationButton_toggled(button_pressed):
+	if multiplayer.is_network_server():
+		for child in sync_root.get_children():
+			if child is Avatar:
+				child.validate = button_pressed
 
 
 func _peer_connected(id):

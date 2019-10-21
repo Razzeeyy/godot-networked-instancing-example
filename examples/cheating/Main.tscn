@@ -18,27 +18,34 @@ margin_bottom = 83.0
 custom_constants/separation = 10
 
 [node name="ServerButton" type="Button" parent="VBoxContainer"]
-margin_right = 100.0
+margin_right = 195.0
 margin_bottom = 20.0
 text = "Server"
 
 [node name="ClientButton" type="Button" parent="VBoxContainer"]
 margin_top = 30.0
-margin_right = 100.0
+margin_right = 195.0
 margin_bottom = 50.0
 text = "Client"
 
 [node name="DisconnectButton" type="Button" parent="VBoxContainer"]
 margin_top = 60.0
-margin_right = 100.0
+margin_right = 195.0
 margin_bottom = 80.0
 text = "Disconnect"
 
+[node name="ValidationButton" type="CheckButton" parent="VBoxContainer"]
+margin_top = 90.0
+margin_right = 195.0
+margin_bottom = 130.0
+text = "Validation"
+
 [node name="Status" type="Label" parent="."]
-margin_left = 150.0
+margin_left = 240.215
 margin_top = 25.0
-margin_right = 250.0
+margin_right = 340.215
 margin_bottom = 50.0
 [connection signal="pressed" from="VBoxContainer/ServerButton" to="." method="_on_ServerButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/ClientButton" to="." method="_on_ClientButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/DisconnectButton" to="." method="_on_DisconnectButton_pressed"]
+[connection signal="toggled" from="VBoxContainer/ValidationButton" to="." method="_on_ValidationButton_toggled"]
