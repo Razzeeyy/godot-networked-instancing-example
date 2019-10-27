@@ -34,7 +34,7 @@ There can be as many `SyncRoot` nodes in a hierarchy as one wishes. It's up to t
 3. Add `SyncRoot` node, somewhere appropriate in your SceneTree. Usually an AutoLoad works great. Make sure to call `sync_client(id)` when new client connects to the server, to update that client with the current state of the world.
 4. Navigate to a scene whose instantiation you would want to be networked.
 5. Add `SyncNode` (or [any of it's subclasses](#SyncTransform2D)) as the direct child of the given scene's root. Tweak the settings to your liking, see [API reference](#SyncNode) for more info.
-6. Instantiate the given scene and add that instance as a child anywhere under the `SyncRoot`'s node in hierarchy. **NOTE: Due to engine's RPC limitations, if you're instantiating the same scene multiple times make sure to explicitly name the instances differently. Or use a `node.name=node.name` workaround as suggested here: https://github.com/Razzeeyy/godot-networked-instancing-example/issues/6#issuecomment-546366062**
+6. Instantiate the given scene and add that instance as a child anywhere under the `SyncRoot`'s node in hierarchy. **NOTE: Due to engine's RPC limitations, if you're instantiating the same scene multiple times make sure to explicitly name the instances differently. Or add children with `add_child(your_instance_here, true)`, the second argument must be set to `true`.**
 7. It should work automagically.
 
 
