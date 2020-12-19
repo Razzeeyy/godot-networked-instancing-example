@@ -6,12 +6,6 @@ This example showcases the usage of SyncSys add-on to simplify networking of sce
 Even though the example showcases it in 2D this system is general enough and can be used for 3D or even UI too.  
 Verified to work with Godot 3.1.
 
-### Video Overview
-
-https://youtu.be/0kXzSleNixo  
-However this video is a bit outdated now and talks about the first version, which lacked some features. Original library version is accessible at [v1 branch](https://github.com/Razzeeyy/godot-networked-instancing-example/tree/v1).
-
-
 ## About SyncSys Addon
 
 ### The Why
